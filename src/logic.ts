@@ -6,8 +6,19 @@ type Product = {
 };
  
 function filterAndSortProducts(products: Product[]): Product[] {
-    // Your code goes here
-    return [] 
+    products.sort((a, b) => a.price - b.price)
+
+    const uniqueProducts: Product[] = [];
+    const seenProduct: Set<string> = new Set(); 
+
+    for (const product of products) {
+        if (!seenProduct.has(product.name)) {
+            uniqueProducts.push(product);
+            seenProduct.add(product.name); 
+        }
+    }
+
+    return uniqueProducts;
 }
 
 module.exports = { filterAndSortProducts }

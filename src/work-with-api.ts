@@ -3,6 +3,8 @@
 
 // API URL: https://jsonplaceholder.typicode.com/posts
 // Use axios library
+import axios from 'axios';
+
 type APIResponseType = {
     id: number,
     userId: number
@@ -11,8 +13,21 @@ type APIResponseType = {
 }
 
 async function fetchLongPosts(): Promise<APIResponseType[]> {
-    // Your code goes here
-    return []
+    try {
+        const response = await axios.get<APIResponseType[]>('https://jsonplaceholder.typicode.com/posts');
+        
+        let longPosts: APIResponseType[] = [];
+        response.data.map((object)=>{
+            if (object.body.length >= 12){
+                longPosts.push(object);
+            }
+        })
+
+        return longPosts;
+    } catch (error) {
+        console.log(error);
+        return []; 
+    }
 }
 
 module.exports = { fetchLongPosts }
